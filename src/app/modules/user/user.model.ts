@@ -49,7 +49,6 @@ UserSchema.pre("save", async function (next) {
 
 //post empty string after saving password
 UserSchema.post("save", async function (doc, next) {
-  // console.log(this, 'post hook : we  saved out data  ');
   doc.password = "";
   next();
 });
