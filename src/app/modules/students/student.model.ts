@@ -73,76 +73,85 @@ const localGuardiansSchema = new Schema<TLocalGuardian>({
 });
 
 // Student Schema
-const studentSchema = new Schema<TStudent>({
-  id: {
-    type: String,
-    required: [true, "ID is required"],
-    unique: true,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    required: [true, "User id is required"],
-    unique: true,
-    ref: "Users",
-  },
-  name: {
-    type: userNameSchema,
-    required: [true, "Name is required"],
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ["male", "female"],
-      message: "{VALUE} is not a valid gender",
+const studentSchema = new Schema<TStudent>(
+  {
+    id: {
+      type: String,
+      required: [true, "ID is required"],
+      unique: true,
     },
-    required: [true, "Gender is required"],
-  },
-  dateOfBirth: {
-    type: Date,
-  },
-  contactNumber: {
-    type: String,
-    required: [true, "Contact number is required"],
-  },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "Users",
+    },
+    name: {
+      type: userNameSchema,
+      required: [true, "Name is required"],
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ["male", "female"],
+        message: "{VALUE} is not a valid gender",
+      },
+      required: [true, "Gender is required"],
+    },
+    dateOfBirth: {
+      type: Date,
+    },
+    contactNumber: {
+      type: String,
+      required: [true, "Contact number is required"],
+    },
 
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-    // validate: {
-    //   validator: (value: string) => validator.isEmail(value),
-    //   message: '{VALUE} is not a valid',
-    // },
-  },
-  emerGencyContactNumber: {
-    type: String,
-    required: [true, "Emergency contact number is required"],
-  },
-  bloodStatus: {
-    type: String,
-    enum: {
-      values: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-      message: "{VALUE} is not a valid blood status",
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      // validate: {
+      //   validator: (value: string) => validator.isEmail(value),
+      //   message: '{VALUE} is not a valid',
+      // },
+    },
+    emerGencyContactNumber: {
+      type: String,
+      required: [true, "Emergency contact number is required"],
+    },
+    bloodStatus: {
+      type: String,
+      enum: {
+        values: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+        message: "{VALUE} is not a valid blood status",
+      },
+    },
+    presentAddress: {
+      type: String,
+      required: [true, "Present address is required"],
+    },
+    permenentAddress: {
+      type: String,
+      required: [true, "Permanent address is required"],
+    },
+    guardian: {
+      type: guardianSchema,
+      // required: [false, "Guardians information is required"],
+      required: false,
+    },
+    localGuardian: {
+      type: localGuardiansSchema,
+      required: [false, "Local guardians information is required"],
+    },
+    profileImage: {
+      type: String,
     },
   },
-  presentAddress: {
-    type: String,
-    required: [true, "Present address is required"],
-  },
-  permenentAddress: {
-    type: String,
-    required: [true, "Permanent address is required"],
-  },
-  guardian: {
-    type: guardianSchema,
-    // required: [false, "Guardians information is required"],
-    required: false,
-  },
-  localGuardian: {
-    type: localGuardiansSchema,
-    required: [false, "Local guardians information is required"],
-  },
-  profileImage: String,
-});
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 export const Student = model<TStudent>("Student", studentSchema);

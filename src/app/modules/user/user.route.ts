@@ -1,9 +1,16 @@
-import { Router } from "express";
 import { UserController } from "./user.controller";
+
+import { studentValidations } from "../students/student.validation";
+import validateRequest from "../../middleware/validateRequest";
+import { Router } from "express";
 
 const router = Router();
 
-router.post("/create-student", UserController.createStudent);
-router.get("/get-student", UserController.createStudent);
+router.post(
+  "/create-student",
+  validateRequest(studentValidations.createValidationsSchema),
+  UserController.createStudent
+);
+router.get("/", UserController.createStudent);
 
 export const UserRoute = router;

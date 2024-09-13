@@ -31,7 +31,7 @@ const localGuardianValidationSchema = z.object({
 });
 
 // Student Schema
-export const createStudentValidationSchema = z.object({
+const createValidationsSchema = z.object({
   body: z.object({
     password: z.string().max(20).optional(),
     student: z.object({
@@ -53,4 +53,6 @@ export const createStudentValidationSchema = z.object({
   }),
 });
 
-export const studentValidations = { createStudentValidationSchema };
+export const studentValidations = {
+  createValidationsSchema,
+};
