@@ -1,49 +1,41 @@
-# PH University Management Project 
+# PH University Management Project
 
-### API Endpoints
+## API Endpoints
 
-- User:
+#### User:
 
-users/create-student (POST)
-users/create-faculty (POST)
-users/create-admin (POST)
+- users/create-student (POST)
+- users/create-faculty (POST)
+- users/create-admin (POST)
 
+#### Student:
 
-- Student:
-students (GET)
-students/:id (GET)
-students/:id (PATCH)
-students/:id (DELETE)
-students/my-profile
+- students (GET)
+- students/:id (GET)
+- students/:id (PATCH)
+- students/:id (DELETE)
+- students/my-profile
 
- 
-- Faculty:
-faculties(GET)
-faculties/:id (GET)
-faculties/:id (PATCH)
-faculties/:id (DELETE)
-faculties/my-profile
+#### Faculty:
 
-- Admin:
-admins (GET)
-admins /:id (GET)
-admins /:id (PATCH)
-admins /:id (DELETE)
-admins /my-profile
+- faculties(GET)
+- faculties/:id (GET)
+- faculties/:id (PATCH)
+- faculties/:id (DELETE)
+- faculties/my-profile
+
+#### Admin:
+
+- admins (GET)
+- admins /:id (GET)
+- admins /:id (PATCH)
+- admins /:id (DELETE)
+- admins /my-profile
 
 ### Auth:
 
-auth/login
-auth/refresh-token
-auth/change-password
-auth/forgot-password
-auth/reset-password
-
-
-
-
-
-
-
-
-	
+- auth/login
+- auth/refresh-token
+- auth/change-password
+- auth/forgot-password
+- auth/reset-password
