@@ -40,15 +40,29 @@ const userNameSchema = new Schema<TUserName>({
 const guardianSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
-    required: [true, "Father's name is required"],
+    trim: true,
+    required: [true, "Father Name is required"],
+  },
+  fatherOccupation: {
+    type: String,
+    trim: true,
+    required: [true, "Father occupation is required"],
+  },
+  fatherContactNo: {
+    type: String,
+    required: [true, "Father Contact No is required"],
   },
   motherName: {
     type: String,
-    required: [true, "Mother's name is required"],
+    required: [true, "Mother Name is required"],
   },
-  contactNumber: {
+  motherOccupation: {
     type: String,
-    required: [true, "Contact number is required"],
+    required: [true, "Mother occupation is required"],
+  },
+  motherContactNo: {
+    type: String,
+    required: [true, "Mother Contact No is required"],
   },
 });
 
@@ -62,7 +76,7 @@ const localGuardiansSchema = new Schema<TLocalGuardian>({
     type: String,
     required: [true, "Occupation is required"],
   },
-  contactNumber: {
+  contactNo: {
     type: String,
     required: [true, "Contact number is required"],
   },
@@ -101,7 +115,7 @@ const studentSchema = new Schema<TStudent>(
     dateOfBirth: {
       type: Date,
     },
-    contactNumber: {
+    contactNo: {
       type: String,
       required: [true, "Contact number is required"],
     },
@@ -119,7 +133,7 @@ const studentSchema = new Schema<TStudent>(
       type: String,
       required: [true, "Emergency contact number is required"],
     },
-    bloodStatus: {
+    bloogGroup: {
       type: String,
       enum: {
         values: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
@@ -145,6 +159,10 @@ const studentSchema = new Schema<TStudent>(
     },
     profileImage: {
       type: String,
+    },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: "AcademicSemester",
     },
   },
   {

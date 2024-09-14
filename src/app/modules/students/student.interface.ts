@@ -8,14 +8,17 @@ export type TUserName = {
 
 export type TGuardian = {
   fatherName: string;
+  fatherOccupation: string;
+  fatherContactNo: string;
   motherName: string;
-  contactNumber: string;
+  motherOccupation: string;
+  motherContactNo: string;
 };
 
 export type TLocalGuardian = {
   name: string;
   occupation: string;
-  contactNumber: string;
+  contactNo: string;
   address: string;
 };
 
@@ -26,14 +29,14 @@ export type TStudent = {
   name: TUserName;
   gender: "male" | "female";
   dateOfBirth: Date;
-  contactNumber: string;
+  contactNo: string;
   emerGencyContactNumber: string;
   email: string;
-  bloodStatus?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  bloogGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   presentAddress?: string;
   permenentAddress?: string;
   guardian: TGuardian;
   localGuardian?: TLocalGuardian;
+  admissionSemester: Types.ObjectId;
   profileImage?: string;
- 
 };

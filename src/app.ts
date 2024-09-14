@@ -15,12 +15,9 @@ app.use(cors());
 //routes
 app.use("/api/v1", router);
 
-
 app.get("/", (req: Request, res: Response) => {
   res.send("University Managment Services - 2.0 , Backend Server ..!");
 });
-
-
 
 //middleware
 app.use(globalErrorHandler);
