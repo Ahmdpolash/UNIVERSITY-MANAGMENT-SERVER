@@ -24,5 +24,8 @@ export type TAcademicSemester = {
 };
 
 export type TAcademicSemesterNameCodeMapper = {
+  // Autumn: "01";
+  // Summar: "02";
+  // Fall: "03";
   [key: string]: string;
 };

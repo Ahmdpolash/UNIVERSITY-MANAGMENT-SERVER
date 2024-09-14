@@ -39,3 +39,11 @@
 - auth/change-password
 - auth/forgot-password
 - auth/reset-password
+
+### academic semesters
+
+- create-academic-semester (POST)
+- academic-semesters (GET)
+- Academic-semesters/:id (GET)
+- Academic-semesters/:id (DELETE)
+- Academic-semesters/:id (PATCH)

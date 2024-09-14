@@ -38,6 +38,23 @@ const academicSemesterSchema = new Schema<TAcademicSemester>(
   }
 );
 
+// same year and same name not be applicable in same year
+// thats why here we checking using pre hook if the name and the year is already exist then thorw a error message !!
+
+academicSemesterSchema.pre("save", async function (next) {
+  //not save the same year as same name of semester
+  const isSemesterExist = await AcademicSemester.findOne({
+    year: this.year,
+    name: this.name,
+  });
+
+  if (isSemesterExist) {
+    throw new Error("Academic semester is already exist");
+  }
+
+  next();
+});
+
 export const AcademicSemester = model<TAcademicSemester>(
   "AcademicSemester",
   academicSemesterSchema
