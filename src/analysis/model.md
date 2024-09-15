@@ -86,7 +86,6 @@
 ### Academic Faculty:
 
 - \_id
-
 - name
 - createdAt
 - updatedAt
