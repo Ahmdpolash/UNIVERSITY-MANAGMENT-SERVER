@@ -16,13 +16,29 @@ const findLastStudentId = async () => {
     })
     .lean();
 
-  return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+  //203001 0001
+  return lastStudent?.id ? lastStudent.id : undefined;
 };
 
 //year semester 4 digits number
 
 export const generateStudentId = async (payload: TAcademicSemester) => {
-  const currentId = (await findLastStudentId()) || (0).toString();
+  let currentId = (0).toString();
+
+  let lastStudentId = await findLastStudentId();
+  let lastStudentSemesterCode = lastStudentId?.substring(4, 6);
+  let lastStudentSemesterYear = lastStudentId?.substring(0, 4);
+
+  const currentSemesterCode = payload.code;
+  const currentSemesterYear = payload.year;
+
+  if (
+    lastStudentId &&
+    lastStudentSemesterCode === currentSemesterCode &&
+    lastStudentSemesterYear === currentSemesterYear
+  ) {
+    currentId = lastStudentId.substring(6); //0001
+  }
 
   let incrementId = (Number(currentId) + 1).toString().padStart(4, "0");
 
