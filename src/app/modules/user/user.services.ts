@@ -1,4 +1,4 @@
-import config from "../../../config";
+import config from "../../config";
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { AcademicSemester } from "../academicSemester/academicSemester.modal";
 import { TStudent } from "../students/student.interface";

@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { TUser } from "./user.interface";
-import config from "../../../config";
+import config from "../../config";
 import bcrypt from "bcrypt";
 const UserSchema = new Schema<TUser>(
   {
@@ -52,5 +52,7 @@ UserSchema.post("save", async function (doc, next) {
   doc.password = "";
   next();
 });
+
+
 
 export const User = model<TUser>("Users", UserSchema);
