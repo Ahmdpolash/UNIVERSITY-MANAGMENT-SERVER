@@ -11,9 +11,17 @@
     "build": "tsc"
   },
   "keywords": [
-    "university management system "
+    "university management system ",
+    "university management system",
+    "university management system backend ",
+    "university management project"
   ],
-  "author": "Md Polash Ahmed",
+  "author": {
+    "name": "Md Polash Ahmed",
+    "linkedin": "linkedin.com/in/polashahmed",
+    "url": "https://github.com/Ahmdpolash",
+    "email": "ahmedpolash732@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
