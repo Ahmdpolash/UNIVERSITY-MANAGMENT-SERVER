@@ -7,8 +7,20 @@ import { TStudent } from "./student.interface";
 import { object } from "zod";
 
 //get all students
-const getAllStudent = async () => {
-  const result = await Student.find()
+const getAllStudent = async (query: Record<string, unknown>) => {
+  let searchTerm = "";
+
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
+  const result = await Student.find({
+    $or: ["email", "name.firstName", "presentAddress", "contactNo "].map(
+      (field) => ({
+        [field]: { $regex: searchTerm, $options: "i" },
+      })
+    ),
+  })
     .populate("admissionSemester")
     .populate({
       path: "academicDepartment",
@@ -35,8 +47,7 @@ const getSingleStudent = async (id: string) => {
   return result;
 };
 
-//update
-
+//update   (important)
 const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
   const { name, guardian, localGuardian, ...remainingStudentData } = payload;
 
@@ -72,8 +83,6 @@ const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
       modifiedUpdatedData[`localGuardian.${key}`] = value;
     }
   }
-
-  console.log(modifiedUpdatedData);
 
   const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
     new: true,

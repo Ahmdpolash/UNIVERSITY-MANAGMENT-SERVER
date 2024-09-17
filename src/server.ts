@@ -8,7 +8,7 @@ let server: Server;
 async function main() {
   try {
     await mongoose.connect(config.db_uri as string);
-    app.listen(config.port, () => {
+    server = app.listen(config.port, () => {
       console.log(`PHUNMS-2.0 Is running on port ${config.port}`);
     });
   } catch (error) {
@@ -27,8 +27,6 @@ process.on("unhandledRejection", () => {
   }
   process.exit(1);
 });
-
-
 
 process.on("uncaughtException", () => {
   console.log(`😈 uncaughtException is detected , shutting down ...`);
