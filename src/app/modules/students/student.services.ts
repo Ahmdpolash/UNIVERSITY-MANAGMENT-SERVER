@@ -4,6 +4,7 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { User } from "../user/user.model";
 import { TStudent } from "./student.interface";
+import { object } from "zod";
 
 //get all students
 const getAllStudent = async () => {
@@ -50,8 +51,8 @@ const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
 
     guardian.fatherOccupation = Teacher
 
-    name.firstName = 'Mezba'
-    name.lastName = 'Abedin'
+    name.firstName = 'Polash'
+    name.lastName = 'Ahmed'
   */
 
   if (name && Object.keys(name).length) {
