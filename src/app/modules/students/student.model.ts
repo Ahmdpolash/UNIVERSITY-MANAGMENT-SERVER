@@ -182,6 +182,17 @@ const studentSchema = new Schema<TStudent>(
   }
 );
 
+//virtual
+studentSchema.virtual("fullName").get(function () {
+  return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
+});
+
+// Query Middleware
+// studentSchema.pre("find", function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
+
 studentSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
 
@@ -194,7 +205,5 @@ studentSchema.pre("findOneAndUpdate", async function (next) {
 
   next();
 });
-
-
 
 export const Student = model<TStudent>("Student", studentSchema);
