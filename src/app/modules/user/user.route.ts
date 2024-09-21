@@ -11,6 +11,13 @@ router.post(
   validateRequest(studentValidations.createValidationsSchema),
   UserController.createStudent
 );
+
+
+
+
+
+
+
 router.get("/");
 
 export const UserRoute = router;

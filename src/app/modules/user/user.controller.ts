@@ -1,9 +1,8 @@
-import { RequestHandler } from "express";
 import { UserService } from "./user.services";
-import { studentValidations } from "../students/student.validation";
+
 import catchAsync from "../../utils/catchAsync";
 
-const createStudent: RequestHandler = catchAsync(async (req, res) => {
+const createStudent = catchAsync(async (req, res) => {
   const { password, student: StudentData } = req.body;
 
   // const validate =
@@ -18,6 +17,18 @@ const createStudent: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const createFaculty = catchAsync(async (req, res) => {
+  const { password, faculty: FacultyData } = req.body;
+
+  const result = await UserService.CreateFacultyIntoDb(password, FacultyData);
+  res.status(200).json({
+    success: true,
+    message: "faculty created successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createStudent,
+  createFaculty,
 };

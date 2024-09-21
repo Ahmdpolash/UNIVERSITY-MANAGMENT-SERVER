@@ -9,6 +9,8 @@ import { User } from "./user.model";
 import { generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { TFaculty } from "../faculty/faculty.interface";
+
 
 const CreateStudentIntoDb = async (password: string, payload: TStudent) => {
   //user object
@@ -62,8 +64,24 @@ const CreateStudentIntoDb = async (password: string, payload: TStudent) => {
 
     throw new Error(error);
   }
-};
+}
+
+
+
+
+//create new faculty (user)
+
+const CreateFacultyIntoDb = async (password:string, payload:TFaculty) => {
+
+
+
+
+}
+
+
+
+
 
 export const UserService = {
-  CreateStudentIntoDb,
+  CreateStudentIntoDb,CreateFacultyIntoDb
 };
