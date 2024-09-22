@@ -20,6 +20,7 @@ export type TGender = "male" | "female" | "other";
 
 export type TFaculty = {
   id: string;
+  User: Types.ObjectId;
   designation: string;
   name: TUserName;
   gender: TGender;
@@ -31,6 +32,7 @@ export type TFaculty = {
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  //   academicDepartment: Types.ObjectId;
+  academicFaculty: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
   isDeleted: boolean;
 };

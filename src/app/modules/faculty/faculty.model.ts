@@ -29,6 +29,13 @@ const FacultySchema = new Schema<TFaculty>(
       unique: true,
     },
 
+    User: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "Users",
+    },
+
     designation: {
       type: String,
       required: [true, "designation is required"],
@@ -75,11 +82,16 @@ const FacultySchema = new Schema<TFaculty>(
       required: [true, "Permanent address is required"],
     },
     profileImg: { type: String },
-    //   academicDepartment: {
-    //     type: Schema.Types.ObjectId,
-    //     required: [true, "User id is required"],
-    //     ref: "User",
-    //   },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      required: [true, "faculty id is required"],
+      ref: "AcademicFaculty",
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      required: [true, "department id is required"],
+      ref: "AcademicDepartment",
+    },
     isDeleted: {
       type: Boolean,
       default: false,
@@ -93,4 +105,4 @@ const FacultySchema = new Schema<TFaculty>(
   }
 );
 
-export const FacultyModel = model<TFaculty>("Faculty", FacultySchema);
+export const Faculty = model<TFaculty>("Faculty", FacultySchema);
