@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { TFaculty, TUserName } from "./faculty.interface";
+import { FacultyModel, TFaculty, TUserName } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
 
 const userNameSchema = new Schema<TUserName>({
@@ -21,7 +21,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const facultySchema = new Schema<TFaculty>(
+const facultySchema = new Schema<TFaculty, FacultyModel>(
   {
     id: {
       type: String,
@@ -90,7 +90,7 @@ const facultySchema = new Schema<TFaculty>(
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: [true, "academic department id is required"],
-      ref: "Users",
+      ref: "AcademicDepartment",
     },
     isDeleted: {
       type: Boolean,
@@ -105,4 +105,10 @@ const facultySchema = new Schema<TFaculty>(
   }
 );
 
-export const Faculty = model<TFaculty>("Faculty", facultySchema);
+//checking if faculty is already exist!
+facultySchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await Faculty.findOne({ id });
+  return existingUser;
+};
+
+export const Faculty = model<TFaculty, FacultyModel>("Faculty", facultySchema);

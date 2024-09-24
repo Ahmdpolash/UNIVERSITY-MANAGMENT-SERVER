@@ -42,3 +42,7 @@ export type TStudent = {
   isDeleted: boolean;
   profileImage?: string;
 };
+
+export interface StudentModel extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>;
+}
