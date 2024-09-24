@@ -21,7 +21,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const FacultySchema = new Schema<TFaculty>(
+const facultySchema = new Schema<TFaculty>(
   {
     id: {
       type: String,
@@ -29,7 +29,7 @@ const FacultySchema = new Schema<TFaculty>(
       unique: true,
     },
 
-    User: {
+    user: {
       type: Schema.Types.ObjectId,
       required: [true, "User id is required"],
       unique: true,
@@ -66,7 +66,7 @@ const FacultySchema = new Schema<TFaculty>(
       type: String,
       required: [true, "Emergency contact number is required"],
     },
-    bloogGroup: {
+    bloodgGroup: {
       type: String,
       enum: {
         values: BloodGroup,
@@ -82,15 +82,15 @@ const FacultySchema = new Schema<TFaculty>(
       required: [true, "Permanent address is required"],
     },
     profileImg: { type: String },
-    academicFaculty: {
-      type: Schema.Types.ObjectId,
-      required: [true, "faculty id is required"],
-      ref: "AcademicFaculty",
-    },
+    // academicFaculty: {
+    //   type: Schema.Types.ObjectId,
+    //   required: [true, "faculty id is required"],
+    //   ref: "AcademicFaculty",
+    // },
     academicDepartment: {
       type: Schema.Types.ObjectId,
-      required: [true, "department id is required"],
-      ref: "AcademicDepartment",
+      required: [true, "academic department id is required"],
+      ref: "Users",
     },
     isDeleted: {
       type: Boolean,
@@ -105,4 +105,4 @@ const FacultySchema = new Schema<TFaculty>(
   }
 );
 
-export const Faculty = model<TFaculty>("Faculty", FacultySchema);
+export const Faculty = model<TFaculty>("Faculty", facultySchema);

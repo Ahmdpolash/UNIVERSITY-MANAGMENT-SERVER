@@ -20,19 +20,18 @@ export type TGender = "male" | "female" | "other";
 
 export type TFaculty = {
   id: string;
-  User: Types.ObjectId;
+  user: Types.ObjectId;
   designation: string;
   name: TUserName;
   gender: TGender;
-  dateOfBirth?: string;
+  dateOfBirth?: Date;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloogGroup?: TBloodGroup;
+  bloodgGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  academicFaculty: Types.ObjectId;
   academicDepartment: Types.ObjectId;
   isDeleted: boolean;
 };

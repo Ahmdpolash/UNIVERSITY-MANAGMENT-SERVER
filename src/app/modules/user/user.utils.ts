@@ -49,12 +49,12 @@ export const generateStudentId = async (payload: TAcademicSemester) => {
 
 //faculty
 
-const findLastFacultyId = async () => {
-  const result = await User.findOne(
+// Faculty ID
+export const findLastFacultyId = async () => {
+  const lastFaculty = await User.findOne(
     {
-      role: " faculty",
+      role: "faculty",
     },
-
     {
       id: 1,
       _id: 0,
@@ -65,12 +65,11 @@ const findLastFacultyId = async () => {
     })
     .lean();
 
-  return result?.id ? result.id : undefined;
+  return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
 
 export const generatedFacultyId = async () => {
   let currentId = (0).toString();
-
   const lastFacultyId = await findLastFacultyId();
 
   if (lastFacultyId) {

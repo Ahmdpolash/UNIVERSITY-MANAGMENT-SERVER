@@ -93,6 +93,7 @@ const CreateFacultyIntoDb = async (password: string, payload: TFaculty) => {
   try {
     session.startTransaction();
 
+    // set generated id
     userData.id = await generatedFacultyId();
 
     //create a new user (faculty)
@@ -105,20 +106,24 @@ const CreateFacultyIntoDb = async (password: string, payload: TFaculty) => {
     //set id ,_id as faculty
 
     payload.id = newUser[0].id;
-    payload.User = newUser[0]._id; // referencing id
+    payload.user = newUser[0]._id; // referencing id
 
     //create a new user (faculty) transaction - 2
 
-    const newFaculty = await Faculty.create([userData], { session });
+    const newFaculty = await Faculty.create([payload], { session });
+
     if (!newFaculty.length) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to create faculty");
     }
 
     await session.commitTransaction();
     await session.endSession();
+
+    return newFaculty;
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();
+
     throw new Error(error);
   }
 };
