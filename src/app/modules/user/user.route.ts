@@ -19,6 +19,6 @@ router.post(
   UserController.createFaculty
 );
 
-router.get("/");
+router.get("/", UserController.getAllUser);
 
 export const UserRoute = router;

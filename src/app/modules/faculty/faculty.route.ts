@@ -9,6 +9,8 @@ router.get("/", FacultyControllers.getAllFaculties);
 
 router.get("/:facultyId", FacultyControllers.getSingleFaculty);
 
+router.delete("/:facultyId", FacultyControllers.deleteFaculty);
+
 router.patch(
   "/:facultyId",
   validateRequest(updateFacultyValidationSchema),

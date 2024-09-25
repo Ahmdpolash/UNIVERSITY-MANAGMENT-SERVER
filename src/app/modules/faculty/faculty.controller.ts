@@ -1,6 +1,7 @@
 import catchAsync from "../../utils/catchAsync";
 import { FacultyServices } from "./faculty.services";
 
+
 const getAllFaculties = catchAsync(async (req, res) => {
   const result = await FacultyServices.getAllFacultiesFromDb();
 
@@ -39,8 +40,21 @@ const updateFaculty = catchAsync(async (req, res) => {
   });
 });
 
+const deleteFaculty = catchAsync(async (req, res) => {
+  const { facultyId } = req.params;
+
+  const result = await FacultyServices.deleteFacultyFromDb(facultyId);
+
+  res.status(200).json({
+    success: true,
+    message: "Faculty deleted successfully",
+    data: result,
+  });
+});
+
 export const FacultyControllers = {
   getAllFaculties,
   getSingleFaculty,
   updateFaculty,
+  deleteFaculty,
 };

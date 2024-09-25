@@ -18,7 +18,7 @@ const createStudent = catchAsync(async (req, res) => {
 });
 
 const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty:FacultyData } = req.body;
+  const { password, faculty: FacultyData } = req.body;
 
   const result = await UserService.CreateFacultyIntoDb(password, FacultyData);
   res.status(200).json({
@@ -28,7 +28,18 @@ const createFaculty = catchAsync(async (req, res) => {
   });
 });
 
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await UserService.getAllUsersFromDb();
+
+  res.status(200).json({
+    success: true,
+    message: "Users retrieved successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createStudent,
   createFaculty,
+  getAllUser,
 };

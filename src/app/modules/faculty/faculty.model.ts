@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 import { FacultyModel, TFaculty, TUserName } from "./faculty.interface";
 import { BloodGroup, Gender } from "./faculty.constant";
+import AppError from "../../errors/AppError";
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -104,6 +105,18 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
     },
   }
 );
+
+facultySchema.pre("findOneAndUpdate", async function (next) {
+  const query = this.getQuery();
+
+  const isExistFaculty = await Faculty.findOne(query);
+
+  if (!isExistFaculty) {
+    throw new AppError(404, "This faculty doesn't exist");
+  }
+
+  next();
+});
 
 //checking if faculty is already exist!
 facultySchema.statics.isUserExists = async function (id: string) {
