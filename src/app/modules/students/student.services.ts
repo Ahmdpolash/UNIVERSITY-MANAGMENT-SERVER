@@ -195,7 +195,7 @@ const deleteStudentFromDb = async (id: string) => {
 
     // get user _id from deletedStudent
     const userId = deletedStudent.user;
-    
+
     // delete user
     const deleteduser = await User.findByIdAndUpdate(
       userId,
