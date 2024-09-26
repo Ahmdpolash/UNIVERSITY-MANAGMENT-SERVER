@@ -7,12 +7,12 @@ const router = Router();
 
 router.get("/", FacultyControllers.getAllFaculties);
 
-router.get("/:facultyId", FacultyControllers.getSingleFaculty);
+router.get("/:id", FacultyControllers.getSingleFaculty);
 
-router.delete("/:facultyId", FacultyControllers.deleteFaculty);
+router.delete("/:id", FacultyControllers.deleteFaculty);
 
 router.patch(
-  "/:facultyId",
+  "/:id",
   validateRequest(updateFacultyValidationSchema),
   FacultyControllers.updateFaculty
 );

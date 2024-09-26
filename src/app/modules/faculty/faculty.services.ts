@@ -14,14 +14,14 @@ const getAllFacultiesFromDb = async () => {
 //single
 const getSingleFacultyFromDb = async (id: string) => {
   // const result = await Faculty.findById(id);
-  const result = await Faculty.findOne({ id }).populate("academicDepartment");
+  const result = await Faculty.findById(id).populate("academicDepartment");
 
   return result;
 };
 
 //update
 const updateFacultyIntoDb = async (id: string, payload: Partial<TFaculty>) => {
-  const { name, academicDepartment, ...remainingFacultyData } = payload;
+  const { name, ...remainingFacultyData } = payload;
 
   const modifiedData: Record<string, unknown> = { ...remainingFacultyData };
 
@@ -31,13 +31,13 @@ const updateFacultyIntoDb = async (id: string, payload: Partial<TFaculty>) => {
     }
   }
 
-  if (academicDepartment && Object.keys(academicDepartment).length) {
-    for (const [key, value] of Object.entries(academicDepartment)) {
-      modifiedData[`academicDepartment.${key}`] = value;
-    }
-  }
+  // if (academicDepartment && Object.keys(academicDepartment).length) {
+  //   for (const [key, value] of Object.entries(academicDepartment)) {
+  //     modifiedData[`academicDepartment.${key}`] = value;
+  //   }
+  // }
 
-  const result = await Faculty.findOneAndUpdate({ id }, modifiedData, {
+  const result = await Faculty.findByIdAndUpdate(id, modifiedData, {
     new: true,
     runValidators: true,
   });
@@ -52,20 +52,21 @@ const deleteFacultyFromDb = async (id: string) => {
   try {
     session.startTransaction();
     //delete faculty (transaction - one )
-    const deleteFaculty = await Faculty.findOneAndUpdate(
-      { id },
+    const deletedFaculty = await Faculty.findByIdAndUpdate(
+      id,
       { isDeleted: true },
       { new: true, session }
     );
 
-    if (!deleteFaculty) {
+    if (!deletedFaculty) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete Faculty");
     }
 
-    //delete user (transaction - two )
+    // get user _id from deletedFaculty
+    const userId = deletedFaculty.user;
 
-    const deletedUser = await User.findOneAndUpdate(
-      { id },
+    const deletedUser = await User.findByIdAndUpdate(
+      userId,
       { isDeleted: true },
       { new: true, session }
     );

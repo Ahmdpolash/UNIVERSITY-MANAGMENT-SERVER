@@ -86,14 +86,6 @@ const CreateFacultyIntoDb = async (password: string, payload: TFaculty) => {
   //set student role
   userData.role = "faculty";
 
-  // const academicDepartment = await AcademicDepartment.findById(
-  //   payload.academicDepartment
-  // );
-
-  // if (!academicDepartment) {
-  //   throw new AppError(httpStatus.BAD_REQUEST, "Invalid academic department");
-  // }
-
   const session = await mongoose.startSession();
 
   try {
@@ -171,6 +163,8 @@ const CreateAdminIntoDb = async (password: string, payload: TAdmin) => {
 
     await session.commitTransaction();
     await session.endSession();
+
+    return newAdmin;
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();

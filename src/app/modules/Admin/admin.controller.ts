@@ -12,8 +12,8 @@ const getAllAdmins = catchAsync(async (req, res) => {
 });
 
 const getSingleAdmin = catchAsync(async (req, res) => {
-  const { adminId } = req.params;
-  const result = await StudentServices.getSingleAdminFromDb(adminId);
+  const { id } = req.params;
+  const result = await StudentServices.getSingleAdminFromDb(id);
 
   res.status(200).json({
     success: true,
@@ -23,8 +23,8 @@ const getSingleAdmin = catchAsync(async (req, res) => {
 });
 
 const deleteAdmin = catchAsync(async (req, res) => {
-  const { adminId } = req.params;
-  const result = await StudentServices.deleteAdminFromDb(adminId);
+  const { id } = req.params;
+  const result = await StudentServices.deleteAdminFromDb(id);
 
   res.status(200).json({
     success: true,
@@ -34,10 +34,10 @@ const deleteAdmin = catchAsync(async (req, res) => {
 });
 
 const updateAdmin = catchAsync(async (req, res) => {
-  const { adminId } = req.params;
+  const { id } = req.params;
   const { admin } = req.body;
 
-  const result = await StudentServices.updateAdminIntoDb(adminId, admin);
+  const result = await StudentServices.updateAdminIntoDb(id, admin);
   res.status(200).json({
     success: true,
     message: "Admin updated successfully",
