@@ -17,4 +17,10 @@ router.get("/:id", CourseController.getSingleCourse);
 
 router.delete("/:id", CourseController.deleteCourse);
 
+router.patch(
+  "/:id",
+  validateRequest(CourseValidations.updateCourseValidationSchema),
+  CourseController.updateCourseIntoDb
+);
+
 export const CourseRoutes = router;
