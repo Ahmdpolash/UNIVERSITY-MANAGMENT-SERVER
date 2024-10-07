@@ -137,6 +137,9 @@ const updateCourseIntoDb = async (id: string, payload: Partial<TCourse>) => {
   }
 };
 
+
+
+
 //assign faculty
 const assignFacultiesWithCourseIntoDB = async (
   id: string,
