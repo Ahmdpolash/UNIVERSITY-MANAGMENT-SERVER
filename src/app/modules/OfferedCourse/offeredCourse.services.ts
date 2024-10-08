@@ -7,6 +7,7 @@ import { AcademicFaculty } from "../academicFaculty/academicFaculty.model";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
 import { Course } from "../Course/course.model";
 import { Faculty } from "../faculty/faculty.model";
+import { hasTimeConflict } from "./offeredCourse.utils";
 
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
@@ -78,6 +79,59 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
 
   if (!isFacultyExits) {
     throw new AppError(httpStatus.NOT_FOUND, "Faculty not found !");
+  }
+
+  // check if the department is belong to the  faculty
+  const isDepartmentBelongToFaculty = await AcademicDepartment.findOne({
+    _id: academicDepartment,
+    academicFaculty,
+  });
+
+  if (!isDepartmentBelongToFaculty) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `This ${isAcademicDepartmentExits.name} is not  belong to this ${isAcademicFacultyExits.name}`
+    );
+  }
+
+  // check if the same offered course same section in same registered semester exists
+
+  const isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection =
+    await OfferedCourse.findOne({
+      semesterRegistration,
+      course,
+      section,
+    });
+
+  if (isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Offered course with same section is already exist!`
+    );
+  }
+
+  // get the schedules of the faculties
+
+  const assignedSchedules = await OfferedCourse.find(
+    {
+      semesterRegistration,
+      faculty,
+      days: { $in: days },
+    }
+    // { days: 1, startTime: 1, endTime: 1 } // field filtering
+  ).select("days startTime endTime");
+
+  const newSchedule = {
+    days,
+    startTime,
+    endTime,
+  };
+
+  if (hasTimeConflict(assignedSchedules, newSchedule)) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      `This faculty is not available at that time ! Choose other time or day`
+    );
   }
 
   const result = await OfferedCourse.create({ ...payload, academicSemester });
