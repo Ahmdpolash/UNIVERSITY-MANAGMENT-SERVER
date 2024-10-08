@@ -153,7 +153,16 @@ const updateSemesterRegistrationIntoDB = async (
 };
 
 // delete semester registration
-const deleteSemesterRegistrationFromDB = async () => {};
+const deleteSemesterRegistrationFromDB = async () => {
+  /*
+
+  1.delete associated offered course 
+  2.delete semester registration
+  */
+  
+
+  
+};
 
 export const SemesterRegistrationService = {
   createSemesterRegistrationIntoDB,

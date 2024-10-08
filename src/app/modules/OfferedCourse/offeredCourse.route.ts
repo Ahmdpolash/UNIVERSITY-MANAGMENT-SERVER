@@ -5,10 +5,20 @@ import { OfferedCourseControllers } from "./offeredCourse.controller";
 
 const router = Router();
 
+router.get("/", OfferedCourseControllers.getAllOfferedCourse);
+
+router.get("/:id", OfferedCourseControllers.getSingleOfferedCourse);
+
 router.post(
   "/create-offered-course",
   validateRequest(OfferedCourseValidations.createOfferedCourseValidationSchema),
   OfferedCourseControllers.createOfferedCourse
+);
+
+router.patch(
+  "/:id",
+  validateRequest(OfferedCourseValidations.updateOfferedCourseValidationSchema),
+  OfferedCourseControllers.updateOfferedCourse
 );
 
 export const offeredCourseRoutes = router;
