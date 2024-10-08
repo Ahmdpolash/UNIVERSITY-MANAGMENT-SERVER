@@ -141,12 +141,13 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
 };
 
 const getAllOfferedCourseFromDB = async (query: Record<string, unknown>) => {
-  const offeredCourse = new QueryBuilder(OfferedCourse.find(), query)
+  const offeredCourseQuery = new QueryBuilder(OfferedCourse.find(), query)
     .filter()
     .sort()
     .paginate()
     .fields();
-  return offeredCourse;
+  const result = await offeredCourseQuery.modelQuery;
+  return result;
 };
 
 const getSingleOfferedCourseFromDB = async (id: string) => {
@@ -248,7 +249,7 @@ const deleteOfferedCourseFromDB = async (id: string) => {
   if (semesterRegistrationStatus?.status !== "UPCOMING") {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `Offered course can not update ! because the semester ${semesterRegistrationStatus}`
+      `Offered course can not update ! because the semester ${semesterRegistrationStatus?.status}`
     );
   }
 

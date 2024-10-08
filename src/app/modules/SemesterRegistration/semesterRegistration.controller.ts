@@ -62,7 +62,16 @@ const updateSemesterRegistration = catchAsync(async (req, res) => {
 });
 
 // delete registered semester
-const deleteSemesterRegistration = catchAsync(async (req, res) => {});
+const deleteSemesterRegistration = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result =
+    await SemesterRegistrationService.deleteSemesterRegistrationFromDB(id);
+  res.status(200).json({
+    success: true,
+    message: "Semester registration deleted successfully",
+    data: result,
+  });
+});
 
 export const SemesterRegistrationController = {
   createSemesterRegistration,
