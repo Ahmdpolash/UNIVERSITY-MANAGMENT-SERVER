@@ -64,8 +64,6 @@ UserSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 
-UserSchema.statics.isStatusBlocked = async function (status: string) {
-  return await User.findOne({ status: status === "blocked" });
-};
+
 
 export const User = model<TUser, UserModel>("Users", UserSchema);

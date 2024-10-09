@@ -18,5 +18,5 @@ export interface UserModel extends Model<TUser> {
     plainTextPassword: string,
     hashedPassword: string
   ): Promise<boolean>;
-  isStatusBlocked(status: string): Promise<boolean>;
+
 }
