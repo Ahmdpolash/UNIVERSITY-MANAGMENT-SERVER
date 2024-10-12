@@ -6,6 +6,7 @@ import { User } from "../user/user.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { createToken } from "./auth.utils";
+import { sendEmail } from "../../utils/sendEmail";
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
@@ -131,7 +132,6 @@ const forgetPassword = async (userId: string) => {
 
   const user = await User.isUserExistsByCustomId(userId);
 
-
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found !");
   }
@@ -156,14 +156,15 @@ const forgetPassword = async (userId: string) => {
     role: user?.role,
   };
 
-  const accessToken = createToken(
+  const resetToken = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     "10m"
   );
 
-  const resetUiLink = `http://localhost:5000?id=${user?.id}&token=${accessToken}`;
-  console.log(resetUiLink);
+  const resetUiLink = `http://localhost:5000?id=${user?.id}&token=${resetToken}`;
+
+  sendEmail()
   return null;
 };
 
