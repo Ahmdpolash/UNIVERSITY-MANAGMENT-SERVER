@@ -21,6 +21,13 @@ router.post(
 );
 
 router.post(
+  "/forget-password",
+  auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
+  validateRequest(AuthValidation.forgetPasswordValidationSchema),
+  AuthControllers.forgetPassword
+);
+
+router.post(
   "/refresh-token",
   validateRequest(AuthValidation.refreshTokenValidationSchema),
   AuthControllers.refreshToken

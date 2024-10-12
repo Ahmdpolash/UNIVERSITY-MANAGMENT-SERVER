@@ -6,6 +6,7 @@ import { AuthServices } from "./auth.services";
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
+
   const { refreshToken, accessToken, needsPasswordChange } = result;
 
   res.cookie("refreshToken", refreshToken, {
@@ -25,11 +26,26 @@ const loginUser = catchAsync(async (req, res) => {
 
 const changePassword = catchAsync(async (req, res) => {
   const { ...passwordData } = req.body;
+
   const result = await AuthServices.changePassword(req.user, passwordData);
 
   res.status(200).json({
     success: true,
     message: "password is updated successfully",
+    data: result,
+  });
+});
+
+const forgetPassword = catchAsync(async (req, res) => {
+  const userId = req.body.id;
+
+  console.log(userId);
+
+  const result = await AuthServices.forgetPassword(userId);
+
+  res.status(200).json({
+    success: true,
+    message: "Reset token is genereted successfully",
     data: result,
   });
 });
@@ -50,4 +66,5 @@ export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
+  forgetPassword,
 };
