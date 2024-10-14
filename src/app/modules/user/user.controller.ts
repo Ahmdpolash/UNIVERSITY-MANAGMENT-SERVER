@@ -5,18 +5,21 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 
 const createStudent = catchAsync(async (req, res) => {
-  // const { password, student: StudentData } = req.body;
-  console.log(req.body);
-  console.log(req.file);
+  const { password, student: StudentData } = req.body;
+
   // const validate =
   //   studentValidations.createStudentValidationSchema.parse(StudentData);
 
-  // const result = await UserService.CreateStudentIntoDb(password, StudentData);
+  const result = await UserService.CreateStudentIntoDb(
+    req.file,
+    password,
+    StudentData
+  );
 
   res.status(200).json({
     success: true,
     message: "student created successfully",
-    data: null,
+    data: result,
   });
 });
 
