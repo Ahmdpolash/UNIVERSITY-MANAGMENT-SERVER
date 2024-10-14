@@ -54,17 +54,32 @@ const getAllUser = catchAsync(async (req, res) => {
 
 // ? get me
 const getMe = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
+  // const token = req.headers.authorization;
 
-  if (!token) {
-    throw new AppError(httpStatus.NOT_FOUND, "Token not found !");
-  }
+  // if (!token) {
+  //   throw new AppError(httpStatus.NOT_FOUND, "Token not found !");
+  // }
 
-  const result = await UserService.getMe(token);
+  const { userId, role } = req.user;
+
+  const result = await UserService.getMe(userId, role);
 
   res.status(200).json({
     success: true,
-    message: "User retrieved successfully",
+    message: "User is retrieved successfully",
+    data: result,
+  });
+});
+
+//? change status
+const changeStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await UserService.changeStatus(id, req.body);
+  console.log(result);
+  res.status(200).json({
+    success: true,
+    message: "User status updated successfully",
     data: result,
   });
 });
@@ -75,4 +90,5 @@ export const UserController = {
   getAllUser,
   createAdmin,
   getMe,
+  changeStatus,
 };
