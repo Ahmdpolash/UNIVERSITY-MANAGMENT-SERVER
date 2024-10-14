@@ -1,6 +1,8 @@
 import { UserService } from "./user.services";
 
 import catchAsync from "../../utils/catchAsync";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 const createStudent = catchAsync(async (req, res) => {
   const { password, student: StudentData } = req.body;
@@ -39,6 +41,7 @@ const createAdmin = catchAsync(async (req, res) => {
   });
 });
 
+//? get all user
 const getAllUser = catchAsync(async (req, res) => {
   const result = await UserService.getAllUsersFromDb();
 
@@ -49,9 +52,27 @@ const getAllUser = catchAsync(async (req, res) => {
   });
 });
 
+// ? get me
+const getMe = catchAsync(async (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    throw new AppError(httpStatus.NOT_FOUND, "Token not found !");
+  }
+
+  const result = await UserService.getMe(token);
+
+  res.status(200).json({
+    success: true,
+    message: "User retrieved successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createStudent,
   createFaculty,
   getAllUser,
   createAdmin,
+  getMe,
 };

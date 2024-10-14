@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { User } from "../user/user.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
-import { createToken } from "./auth.utils";
+import { createToken, verifyToken } from "./auth.utils";
 import { sendEmail } from "../../utils/sendEmail";
 
 const loginUser = async (payload: TLoginUser) => {
@@ -192,22 +192,20 @@ const resetPassword = async (
     throw new AppError(httpStatus.FORBIDDEN, "This user is blocked ! !");
   }
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string
-  ) as JwtPayload;
+  //verify token
+  const decoded = verifyToken(token, config.jwt_access_secret as string);
 
   if (payload.id !== decoded.userId) {
     throw new AppError(httpStatus.FORBIDDEN, "You are forbidden!");
   }
 
+  // hashed new password
   const newHashedPassword = await bcrypt.hash(
     payload.newPassword,
     Number(config.bcrypt_salt_rounds)
   );
 
-
-
+  //update it on db
   await User.findOneAndUpdate(
     {
       id: decoded.userId,
@@ -217,7 +215,7 @@ const resetPassword = async (
       password: newHashedPassword,
       needsPasswordChange: false,
       passwordChangedAt: new Date(),
-    },
+    }
   );
 };
 
@@ -225,10 +223,7 @@ const resetPassword = async (
 
 const refreshToken = async (token: string) => {
   //check if the token is valid
-  const decoded = jwt.verify(
-    token,
-    config.jwt_refresh_secret as string
-  ) as JwtPayload;
+  const decoded = verifyToken(token, config.jwt_refresh_secret as string);
 
   const { userId, iat } = decoded;
 
