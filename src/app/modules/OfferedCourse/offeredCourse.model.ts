@@ -62,6 +62,21 @@ const OfferedCourseSchema = new Schema<TOfferedCourse>(
   }
 );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const OfferedCourse = mongoose.model<TOfferedCourse>(
   "OfferedCourse",
   OfferedCourseSchema
