@@ -26,7 +26,11 @@ const createStudent = catchAsync(async (req, res) => {
 const createFaculty = catchAsync(async (req, res) => {
   const { password, faculty: FacultyData } = req.body;
 
-  const result = await UserService.CreateFacultyIntoDb(password, FacultyData);
+  const result = await UserService.CreateFacultyIntoDb(
+    req.file,
+    password,
+    FacultyData
+  );
   res.status(200).json({
     success: true,
     message: "faculty created successfully",
@@ -37,7 +41,11 @@ const createFaculty = catchAsync(async (req, res) => {
 const createAdmin = catchAsync(async (req, res) => {
   const { password, admin: AdminData } = req.body;
 
-  const result = await UserService.CreateAdminIntoDb(password, AdminData);
+  const result = await UserService.CreateAdminIntoDb(
+    req.file,
+    password,
+    AdminData
+  );
   res.status(200).json({
     success: true,
     message: "Admin created successfully",
