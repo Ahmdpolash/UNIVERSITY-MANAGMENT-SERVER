@@ -190,6 +190,10 @@ studentSchema.virtual("fullName").get(function () {
 
 // Query Middleware
 // studentSchema.pre("find", function (next) {
+//   this.find({ isDeleted: { $ne: false } }); // Changed $ne: true to $ne: false
+//   next;
+// });
+// studentSchema.pre("findOne", function (next) {
 //   this.find({ isDeleted: { $ne: true } });
 //   next();
 // });

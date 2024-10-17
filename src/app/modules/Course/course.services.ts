@@ -24,8 +24,9 @@ const getAllCoursesFromDb = async (query: Record<string, unknown>) => {
     .fields()
     .filter();
 
+  const meta = await courseQuery.countTotal();
   const result = await courseQuery.modelQuery;
-  return result;
+  return { meta, result };
 };
 
 //get single course by id
@@ -136,9 +137,6 @@ const updateCourseIntoDb = async (id: string, payload: Partial<TCourse>) => {
     throw new AppError(httpStatus.BAD_REQUEST, "Failed to update course");
   }
 };
-
-
-
 
 //assign faculty
 const assignFacultiesWithCourseIntoDB = async (

@@ -4,8 +4,8 @@ import httpStatus from "http-status";
 import { User } from "../user/user.model";
 import { TStudent } from "./student.interface";
 import QueryBuilder from "../../builder/QueryBuilder";
-import { studentSearchableField } from "./student.constant";
 import mongoose from "mongoose";
+import { studentSearchableFields } from "./student.constant";
 
 //  get all students
 
@@ -22,7 +22,7 @@ import mongoose from "mongoose";
 
 //   let searchTerm = ""; // SET DEFAULT VALUE
 
-//   // IF searchTerm  IS GIVEN SET IT
+// IF searchTerm  IS GIVEN SET IT
 //   if (query?.searchTerm) {
 //     searchTerm = query?.searchTerm as string;
 //   }
@@ -33,7 +33,7 @@ import mongoose from "mongoose";
 //     })),
 //   });
 
-//   //Filtering
+//Filtering
 //   const excludeFields = ["searchTerm", "sort", "limit", "page", "fields"];
 //   excludeFields.forEach((el) => delete queryObj[el]); // DELETING THE FIELDS SO THAT IT CAN'T MATCH OR FILTER EXACTLY
 
@@ -47,7 +47,7 @@ import mongoose from "mongoose";
 //       },
 //     });
 
-//   //sorting
+//sorting
 
 //   let sort = "-createdAt";
 //   if (query?.sort) {
@@ -56,18 +56,18 @@ import mongoose from "mongoose";
 
 //   const sortQuery = filterQuery.sort(sort);
 
-//   // PAGINATION FUNCTIONALITY:
+// PAGINATION FUNCTIONALITY:
 
 //   let page = 1; // SET DEFAULT VALUE FOR PAGE
 //   let limit = 1; // SET DEFAULT VALUE FOR LIMIT
 //   let skip = 0; // SET DEFAULT VALUE FOR SKIP
 
-//   // IF limit IS GIVEN SET IT
+// IF limit IS GIVEN SET IT
 //   if (query?.limit) {
 //     limit = Number(query?.limit);
 //   }
 
-//   // IF page IS GIVEN SET IT
+// IF page IS GIVEN SET IT
 //   if (query.page) {
 //     page = Number(query?.page);
 //     skip = (page - 1) * limit;
@@ -77,9 +77,9 @@ import mongoose from "mongoose";
 
 //   const limitQuery = paginateQuery.limit(limit);
 
-//   // FIELDS LIMITING FUNCTIONALITY:
+// FIELDS LIMITING FUNCTIONALITY:
 
-//   // HOW OUR FORMAT SHOULD BE FOR PARTIAL MATCH
+// HOW OUR FORMAT SHOULD BE FOR PARTIAL MATCH
 
 //   fields: "name,email"; // WE ARE ACCEPTING FROM REQUEST
 //   fields: "name email"; // HOW IT SHOULD BE
@@ -98,6 +98,7 @@ import mongoose from "mongoose";
 const getAllStudent = async (query: Record<string, unknown>) => {
   const studentQuery = new QueryBuilder(
     Student.find()
+      .populate("user")
       .populate("admissionSemester")
       .populate({
         path: "academicDepartment",
@@ -107,14 +108,16 @@ const getAllStudent = async (query: Record<string, unknown>) => {
       }),
     query
   )
-    .search(studentSearchableField)
+    .search(studentSearchableFields)
     .filter()
     .sort()
     .paginate()
     .fields();
 
+  const meta = await studentQuery.countTotal();
   const result = await studentQuery.modelQuery;
-  return result;
+
+  return { meta, result };
 };
 
 //get single
