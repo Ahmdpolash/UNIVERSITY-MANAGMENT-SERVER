@@ -16,6 +16,8 @@ const createStudent = catchAsync(async (req, res) => {
     StudentData
   );
 
+  console.log(result);
+
   res.status(200).json({
     success: true,
     message: "student created successfully",
