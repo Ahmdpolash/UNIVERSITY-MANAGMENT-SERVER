@@ -22,6 +22,7 @@ export type TLocalGuardian = {
   address: string;
 };
 
+// student interface
 export type TStudent = {
   id: string;
   user: Types.ObjectId;

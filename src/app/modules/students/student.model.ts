@@ -14,16 +14,6 @@ const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First name is required"],
-    // trim: true,
-    // maxlength: [20, 'Max length is required'],
-    // validate: {
-    //   validator: (value: any) => {
-    //     const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
-
-    //     return firstNameStr === value;
-    //   },
-    //   message: '{VALUE} is not a valid',
-    // },
   },
   middleName: {
     type: String,
@@ -193,16 +183,6 @@ studentSchema.virtual("fullName").get(function () {
   return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
 });
 
-// Query Middleware
-// studentSchema.pre("find", function (next) {
-//   this.find({ isDeleted: { $ne: false } }); // Changed $ne: true to $ne: false
-//   next;
-// });
-// studentSchema.pre("findOne", function (next) {
-//   this.find({ isDeleted: { $ne: true } });
-//   next();
-// });
-
 studentSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
 
@@ -221,5 +201,15 @@ studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
+
+// Query Middleware
+// studentSchema.pre("find", function (next) {
+//   this.find({ isDeleted: { $ne: false } }); // Changed $ne: true to $ne: false
+//   next;
+// });
+// studentSchema.pre("findOne", function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
 
 export const Student = model<TStudent, StudentModel>("Student", studentSchema);

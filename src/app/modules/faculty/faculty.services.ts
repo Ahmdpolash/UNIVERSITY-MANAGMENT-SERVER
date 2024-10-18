@@ -31,11 +31,6 @@ const updateFacultyIntoDb = async (id: string, payload: Partial<TFaculty>) => {
     }
   }
 
-  // if (academicDepartment && Object.keys(academicDepartment).length) {
-  //   for (const [key, value] of Object.entries(academicDepartment)) {
-  //     modifiedData[`academicDepartment.${key}`] = value;
-  //   }
-  // }
 
   const result = await Faculty.findByIdAndUpdate(id, modifiedData, {
     new: true,

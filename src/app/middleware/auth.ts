@@ -15,10 +15,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     //check if the token is sent from client
 
     if (!token) {
-      throw new AppError(
-        httpStatus.UNAUTHORIZED,
-        "you are not authorized to access this"
-      );
+      throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorized");
     }
 
     //check if the token is valid

@@ -86,11 +86,11 @@ const facultySchema = new Schema<TFaculty, FacultyModel>(
       type: String,
       default: "",
     },
-    // academicFaculty: {
-    //   type: Schema.Types.ObjectId,
-    //   required: [true, "faculty id is required"],
-    //   ref: "AcademicFaculty",
-    // },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      required: [true, "faculty id is required"],
+      ref: "AcademicFaculty",
+    },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: [true, "academic department id is required"],

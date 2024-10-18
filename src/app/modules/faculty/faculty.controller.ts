@@ -1,8 +1,8 @@
 import catchAsync from "../../utils/catchAsync";
 import { FacultyServices } from "./faculty.services";
 
+// get all faculties
 const getAllFaculties = catchAsync(async (req, res) => {
-  console.log(req.cookies);
   const result = await FacultyServices.getAllFacultiesFromDb();
 
   res.status(200).json({
@@ -12,7 +12,8 @@ const getAllFaculties = catchAsync(async (req, res) => {
   });
 });
 
-//single
+// get single faculty
+
 const getSingleFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await FacultyServices.getSingleFacultyFromDb(id);
@@ -38,6 +39,7 @@ const updateFaculty = catchAsync(async (req, res) => {
   });
 });
 
+//delete faculty
 const deleteFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
 
