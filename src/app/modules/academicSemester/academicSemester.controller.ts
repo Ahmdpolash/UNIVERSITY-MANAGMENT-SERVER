@@ -16,7 +16,9 @@ const createAcademicSemester = catchAsync(async (req, res) => {
 
 // Get all academic semesters from the database
 const getAllAcademicSemesters = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterService.getAllAcademicSemestersFromDb();
+  const result = await AcademicSemesterService.getAllAcademicSemestersFromDb(
+    req.query
+  );
 
   res.status(200).json({
     success: true,
@@ -56,8 +58,6 @@ const updateAcademicSemester = catchAsync(async (req, res) => {
   });
 });
 
-
-
 // delete academic semester
 
 export const AcademicSemesterController = {
@@ -65,5 +65,4 @@ export const AcademicSemesterController = {
   getAllAcademicSemesters,
   getSingleAcademicSemester,
   updateAcademicSemester,
-
 };

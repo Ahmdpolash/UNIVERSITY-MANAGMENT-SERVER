@@ -1,8 +1,12 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { academicSemesterNameCodeMapper } from "./academicSemester.Constant";
+import {
+  academicSemesterNameCodeMapper,
+  AcademicSemesterSearchableFields,
+} from "./academicSemester.Constant";
 import { TAcademicSemester } from "./academicSemester.interface";
 import { AcademicSemester } from "./academicSemester.modal";
+import QueryBuilder from "../../builder/QueryBuilder";
 
 // create academicSemester
 const createAcademicSemesterIntoDb = (payload: TAcademicSemester) => {
@@ -19,16 +23,28 @@ const createAcademicSemesterIntoDb = (payload: TAcademicSemester) => {
 };
 
 // get all semester
-const getAllAcademicSemestersFromDb = async () => {
-  const result = await AcademicSemester.find();
-  return result;
+const getAllAcademicSemestersFromDb = async (
+  query: Record<string, unknown>
+) => {
+  const academicSemesterQuery = new QueryBuilder(AcademicSemester.find(), query)
+    .search(AcademicSemesterSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await academicSemesterQuery.modelQuery;
+  const meta = await academicSemesterQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
 };
 
 // get single academic semester
 const getSingleAcademicSemesterFromDb = async (id: string) => {
-  const result = await AcademicSemester.findById(id).populate(
-    "academicSemester"
-  );
+  const result = await AcademicSemester.findById(id);
   // const result = await AcademicSemester.aggregate([{ $match: { id } }]);
 
   return result;
