@@ -2,6 +2,8 @@ import { Router } from "express";
 import validateRequest from "../../middleware/validateRequest";
 import { OfferedCourseValidations } from "./offeredCourse.validation";
 import { OfferedCourseControllers } from "./offeredCourse.controller";
+import auth from "../../middleware/auth";
+import { USER_ROLE } from "../user/user.constant";
 
 const router = Router();
 
@@ -11,6 +13,7 @@ router.get("/:id", OfferedCourseControllers.getSingleOfferedCourse);
 
 router.post(
   "/create-offered-course",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   validateRequest(OfferedCourseValidations.createOfferedCourseValidationSchema),
   OfferedCourseControllers.createOfferedCourse
 );
