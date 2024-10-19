@@ -1,6 +1,8 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 
 import { SemesterRegistrationService } from "./semesterRegistration.services";
+import sendResponse from "../../utils/sentResponse";
 
 // create new semester
 const createSemesterRegistration = catchAsync(async (req, res) => {
@@ -23,10 +25,12 @@ const getAllSemesterRegistrations = catchAsync(async (req, res) => {
       req.query
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "Semester registrations retrived successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

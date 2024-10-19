@@ -1,13 +1,17 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sentResponse";
 import { StudentServices } from "./admin.services";
 
 const getAllAdmins = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllAdminsFromDb(req.query);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "All Admins retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

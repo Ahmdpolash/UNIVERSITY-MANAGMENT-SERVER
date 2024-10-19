@@ -5,10 +5,26 @@ import httpStatus from "http-status";
 import { User } from "../user/user.model";
 import { Faculty } from "./faculty.model";
 import { TFaculty } from "./faculty.interface";
+import QueryBuilder from "../../builder/QueryBuilder";
+import { FacultySearchableFields } from "./faculty.constant";
 
-const getAllFacultiesFromDb = async () => {
-  const result = await Faculty.find();
-  return result;
+const getAllFacultiesFromDb = async (query: Record<string, unknown>) => {
+  const facultyQuery = new QueryBuilder(
+    Faculty.find().populate("academicDepartment academicFaculty"),
+    query
+  )
+    .search(FacultySearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await facultyQuery.modelQuery;
+  const meta = await facultyQuery.countTotal();
+  return {
+    result,
+    meta,
+  };
 };
 
 //single
@@ -30,7 +46,6 @@ const updateFacultyIntoDb = async (id: string, payload: Partial<TFaculty>) => {
       modifiedData[`name.${key}`] = value;
     }
   }
-
 
   const result = await Faculty.findByIdAndUpdate(id, modifiedData, {
     new: true,

@@ -12,6 +12,8 @@ const loginUser = catchAsync(async (req, res) => {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: config.NODE_ENV === "production", // set to true if using HTTPS
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24 * 365, // 1yr
   });
 
   res.status(200).json({

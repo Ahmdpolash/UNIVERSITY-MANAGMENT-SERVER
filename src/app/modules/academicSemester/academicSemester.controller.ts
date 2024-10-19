@@ -1,4 +1,6 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sentResponse";
 import { AcademicSemesterService } from "./academicSemester.services";
 
 // Create a new academic semester in the database
@@ -20,10 +22,12 @@ const getAllAcademicSemesters = catchAsync(async (req, res) => {
     req.query
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "All Academic Semesters retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

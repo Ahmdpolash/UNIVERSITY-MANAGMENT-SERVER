@@ -1,14 +1,18 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { FacultyServices } from "./faculty.services";
+import sendResponse from "../../utils/sentResponse";
 
 // get all faculties
 const getAllFaculties = catchAsync(async (req, res) => {
-  const result = await FacultyServices.getAllFacultiesFromDb();
+  const result = await FacultyServices.getAllFacultiesFromDb(req.query);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "All Faculty retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

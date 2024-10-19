@@ -1,5 +1,7 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { AcademicDepartmentServices } from "./academicDepartment.services";
+import sendResponse from "../../utils/sentResponse";
 
 //create a new Department
 const createAcademicDepartment = catchAsync(async (req, res) => {
@@ -19,10 +21,12 @@ const getAllAcademicDepartment = catchAsync(async (req, res) => {
   const result =
     await AcademicDepartmentServices.getAllAcademicDepartmentIntoDb(req.query);
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: " Academic Department retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
@@ -34,7 +38,8 @@ const getSingleAcademicDepartment = catchAsync(async (req, res) => {
       departmentId
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "Single Academic Department retrieved successfully",
     data: result,

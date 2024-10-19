@@ -1,5 +1,7 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { OfferedCourseServices } from "./offeredCourse.services";
+import sendResponse from "../../utils/sentResponse";
 
 // create offered courses
 const createOfferedCourse = catchAsync(async (req, res) => {
@@ -20,10 +22,12 @@ const getAllOfferedCourse = catchAsync(async (req, res) => {
     req.query
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: "Offered course retrived successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

@@ -97,15 +97,18 @@ import { studentSearchableFields } from "./student.constant";
 
 const getAllStudent = async (query: Record<string, unknown>) => {
   const studentQuery = new QueryBuilder(
-    Student.find()
-      .populate("user")
-      .populate("admissionSemester")
-      .populate({
-        path: "academicDepartment",
-        populate: {
-          path: "academicFaculty",
-        },
-      }),
+    Student.find().populate(
+      "user admissionSemester academicFaculty academicDepartment"
+    ),
+
+    // .populate("user")
+    // .populate("admissionSemester")
+    // .populate({
+    //   path: "academicDepartment",
+    //   populate: {
+    //     path: "academicFaculty",
+    //   },
+    // }),
     query
   )
     .search(studentSearchableFields)

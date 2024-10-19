@@ -1,4 +1,6 @@
+import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sentResponse";
 import { AcademicFacultyServices } from "./academicFaculty.services";
 
 //create a new faculty
@@ -17,12 +19,16 @@ const createAcademicFaculty = catchAsync(async (req, res) => {
 //get all academic faculty
 
 const getAllAcademicFaculty = catchAsync(async (req, res) => {
-  const result = await AcademicFacultyServices.getAllAcademicFacultiesIntoDb(req.query);
+  const result = await AcademicFacultyServices.getAllAcademicFacultiesIntoDb(
+    req.query
+  );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
     success: true,
     message: " Academic Faculty retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 
