@@ -9,7 +9,9 @@ import { Course } from "../Course/course.model";
 import { Faculty } from "../faculty/faculty.model";
 import { hasTimeConflict } from "./offeredCourse.utils";
 import QueryBuilder from "../../builder/QueryBuilder";
+import { Student } from "../students/student.model";
 
+//create offered course
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
     semesterRegistration,
@@ -140,6 +142,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   return result;
 };
 
+//get all offered course
 const getAllOfferedCourseFromDB = async (query: Record<string, unknown>) => {
   const offeredCourseQuery = new QueryBuilder(OfferedCourse.find(), query)
     .filter()
@@ -147,9 +150,58 @@ const getAllOfferedCourseFromDB = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
   const result = await offeredCourseQuery.modelQuery;
+  const meta = await offeredCourseQuery.countTotal();
+  return { meta, result };
+};
+
+//get my offered course
+const getMyOfferedCoursesFromDB = async (userId: string) => {
+  // find the student
+  const student = await Student.findOne({ id: userId });
+  if (!student) {
+    throw new AppError(httpStatus.NOT_FOUND, "student not found");
+  }
+
+  //find current ongoing semester
+
+  const currentOngoingRegistrationSemester = await SemesterRegistration.findOne(
+    {
+      status: "ONGOING",
+    }
+  );
+
+  if (!currentOngoingRegistrationSemester) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "There is no ongoing semester registration!"
+    );
+  }
+
+  const result = await OfferedCourse.aggregate([
+    {
+      $match: {
+        semesterRegistration: currentOngoingRegistrationSemester._id,
+        academicFaculty: student.academicFaculty,
+        academicDepartment: student.academicDepartment,
+      },
+    },
+    {
+      $lookup: {
+        from: "courses",
+        localField: "course",
+        foreignField: "_id",
+        as: "course",
+      },
+    },
+    {
+      $unwind: "$course",
+    },
+  ]);
+
   return result;
 };
 
+//get single offered course
 const getSingleOfferedCourseFromDB = async (id: string) => {
   const offeredCourse = await OfferedCourse.findById(id);
 
@@ -159,6 +211,7 @@ const getSingleOfferedCourseFromDB = async (id: string) => {
   return offeredCourse;
 };
 
+//update offered course
 const updateOfferedCourseIntoDB = async (
   id: string,
   payload: Pick<TOfferedCourse, "faculty" | "days" | "startTime" | "endTime">
@@ -227,6 +280,7 @@ const updateOfferedCourseIntoDB = async (
   return result;
 };
 
+//delete offered course
 const deleteOfferedCourseFromDB = async (id: string) => {
   /**
    * Step 1: check if the offered course exists
@@ -263,4 +317,5 @@ export const OfferedCourseServices = {
   getSingleOfferedCourseFromDB,
   getAllOfferedCourseFromDB,
   deleteOfferedCourseFromDB,
+  getMyOfferedCoursesFromDB,
 };
